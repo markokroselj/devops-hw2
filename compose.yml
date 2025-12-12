@@ -1,0 +1,23 @@
+services:
+  db:
+    image: mariadb:11.8.5-ubi
+    container_name: mariadb
+    restart: unless-stopped
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: 1
+      MARIADB_USER: appUser
+      MARIADB_PASSWORD_FILE: /run/secrets/mariadb-pwd
+      MARIADB_DATABASE: vehicles_db
+    secrets: 
+      - mariadb-pwd
+    volumes: 
+      - db_data:/var/lib/mysql 
+      - ./db/dbsetup.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+
+secrets:
+  mariadb-pwd:
+    file: db_password.txt
+
+volumes:
+  db_data:
