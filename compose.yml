@@ -19,6 +19,24 @@ services:
       timeout: 3s
       retries: 10
 
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    environment:
+      DB_USERNAME: appUser
+      DB_PASSWORD_FILE: /run/secrets/mariadb-pwd
+      DB_HOST: db
+      APP_PORT: 3000
+    secrets: 
+      - mariadb-pwd
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    ports:
+      - 80:3000
 
 secrets:
   mariadb-pwd:
