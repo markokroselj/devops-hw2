@@ -40,9 +40,10 @@ services:
 
   contact-form:
     image: markokroselj/discord-contact-form
+    container_name: discord-contact-form
     env_file: .env
     ports: 8080:80
-    
+
 secrets:
   mariadb-pwd:
     file: db_password.txt
