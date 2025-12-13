@@ -13,6 +13,11 @@ services:
     volumes: 
       - db_data:/var/lib/mysql 
       - ./db/dbsetup.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: [ "CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -u appUser -p\"$(cat /run/secrets/mariadb-pwd)\"" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
 
 
 secrets:
