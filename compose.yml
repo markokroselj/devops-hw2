@@ -2,7 +2,7 @@ services:
   db:
     image: mariadb:11.8.5-ubi
     container_name: mariadb
-    restart: on-failure:10
+    restart: unless-stopped
     environment:
       MARIADB_RANDOM_ROOT_PASSWORD: 1
       MARIADB_USER: appUser
@@ -34,14 +34,14 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    restart: on-failure:7
+    restart: unless-stopped
 
   frontend:
     image: markokroselj/frontend:0.5.2
     container_name: frontend
     depends_on:
       - backend
-    restart: on-failure:4
+    restart: unless-stopped
 
 
   contact-form:
