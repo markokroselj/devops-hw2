@@ -2,7 +2,7 @@ services:
   db:
     image: mariadb:11.8.5-ubi
     container_name: mariadb
-    restart: unless-stopped
+    restart: on-failure:10
     environment:
       MARIADB_RANDOM_ROOT_PASSWORD: 1
       MARIADB_USER: appUser
@@ -34,7 +34,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    restart: unless-stopped
+    restart: on-failure:7
     ports:
       - 80:3000
 
@@ -42,6 +42,7 @@ services:
     image: markokroselj/discord-contact-form
     container_name: discord-contact-form
     env_file: .env
+    restart: on-failure:2
     ports: 
       - 8080:80
 
