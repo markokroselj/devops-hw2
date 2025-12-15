@@ -35,16 +35,32 @@ services:
       db:
         condition: service_healthy
     restart: on-failure:7
-    ports:
-      - 80:3000
+
+  frontend:
+    image: markokroselj/frontend:0.5.2
+    container_name: frontend
+    depends_on:
+      - backend
+    restart: on-failure:4
+
 
   contact-form:
     image: markokroselj/discord-contact-form
     container_name: discord-contact-form
     env_file: .env
-    restart: on-failure:2
-    ports: 
-      - 8080:80
+    restart: unless-stopped
+
+  caddy:
+      image: caddy:2.11-alpine
+      restart: unless-stopped
+      ports:
+        - "80:80"
+        - "443:443"
+        - "443:443/udp"
+      volumes:
+        - ./caddy:/etc/caddy
+        - caddy_data:/data
+        - caddy_config:/config
 
 secrets:
   mariadb-pwd:
@@ -52,3 +68,5 @@ secrets:
 
 volumes:
   db_data:
+  caddy_data:
+  caddy_config:

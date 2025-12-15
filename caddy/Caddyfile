@@ -1,0 +1,13 @@
+localhost {
+        
+
+        handle_path /api/* {
+                reverse_proxy backend:3000
+    }
+
+      handle_path /contact/* {
+                reverse_proxy contact-form
+    }
+
+    reverse_proxy frontend
+}
