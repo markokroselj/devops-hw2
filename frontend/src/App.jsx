@@ -9,7 +9,7 @@ function App() {
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
-    fetch("/api/get-vehicles")
+    fetch(`/api/get-vehicles`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch vehicles");
@@ -32,7 +32,7 @@ function App() {
       return;
     }
     try {
-      const response = await fetch('/api/delete-all-vehicles', {
+      const response = await fetch(`/api/delete-all-vehicles`, {
         method: 'DELETE',
       });
 
