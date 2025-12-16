@@ -17,9 +17,13 @@ All images are chosen or build to be lightweight and efficient as possible. For 
 
 Docker compose secrets are used to manage password for database. For contact form, Discord web hook is saved inside ``.env`` file. 
 
-Docker image for frontend is build using GitHub actions when new tag is created. Action builds images with tags using semantic versioning. Image is then pushed to Docker Hub registry. 
+Docker image for frontend is build using GitHub actions when new tag is created. Action builds images with tags using semantic versioning. Image is then pushed to Docker Hub registry. You can also manually trigger the action in GitHub.
 
-TLS is automatically configured using Caddy. 
+TLS is automatically configured using Caddy.
+
+Named volumes are used for database and Caddy. Bind mount volume is used for ``Caddyfile``.
+
+Backend starts when database service is heathy using heath check. All services always restart, unless they are manually stopped.
 # Host configuration
 
 Application stack was deployed on virtual machine server running Ubuntu 24.04.3. It has 4 core 2.8GHz CPU and 16GB of RAM.
